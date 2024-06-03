@@ -1,0 +1,11 @@
+prefix="@CMAKE_INSTALL_PREFIX@"
+exec_prefix="${prefix}"
+libdir="${prefix}/@CMAKE_INSTALL_LIBDIR@"
+includedir="${prefix}/@CMAKE_INSTALL_INCLUDEDIR@"
+
+Name: $<TARGET_LINKER_FILE_BASE_NAME:@target@>
+Description: @PROJECT_DESCRIPTION@
+URL: @PROJECT_HOMEPAGE_URL@
+Version: @version@
+Cflags: -I${includedir}
+Libs: -L${libdir} -l$<TARGET_LINKER_FILE_BASE_NAME:@target@>
