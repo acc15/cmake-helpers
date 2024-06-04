@@ -8,6 +8,7 @@ macro(configure_defaults)
     set(CMAKE_DEBUG_POSTFIX "d")
     
     if(MSVC)
+        add_definitions(-D_CRT_SECURE_NO_WARNINGS) # Disables CRT secure warning to allow cross-platform stdlib usage
         add_compile_options(
             /W4 # Enable informational warnings (1-4 level)
             /WX # Treat warnings as errors
@@ -18,6 +19,9 @@ macro(configure_defaults)
             # Removes unreferenced data or functions that are COMDATs, or that only have internal linkage. 
             # Greatly reduces binary size
             /Zc:inline
+
+            # Enables correct __cplusplus version reporting to enable new stdlib++ features
+            /Zc:__cplusplus
         )
     else()
         add_compile_options(-Wall -Wextra -Wpedantic)
