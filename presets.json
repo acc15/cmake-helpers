@@ -1,0 +1,114 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 29,
+        "patch": 3
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "generator": "Ninja",
+            "description": "Base preset with all required configuration",
+            "binaryDir": "${sourceDir}/build",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        },
+        {
+            "name": "base-multi",
+            "inherits": "base",
+            "hidden": true,
+            "description": "Base preset for multi-configuration generators",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "Debug;Release"
+            }
+        },
+        {
+            "name": "debug",
+            "inherits": "base",
+            "description": "Debug preset, mostly used in VSCode",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release",
+            "inherits": "base",
+            "description": "Release preset, mostly used in VSCode",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "multi",
+            "inherits": "base-multi",
+            "generator": "Ninja Multi-Config",
+            "description": "Multi-Ninja preset"
+        },
+        {
+            "name": "vs64",
+            "inherits": "base-multi",
+            "description": "Visual Studio preset (x64)",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "multi-debug",
+            "configurePreset": "multi",
+            "configuration": "Debug"
+        },
+        {
+            "name": "multi-release",
+            "configurePreset": "multi",
+            "configuration": "Release"
+        },
+        {
+            "name": "vs64-debug",
+            "configurePreset": "vs64",
+            "configuration": "Debug"
+        },
+        {
+            "name": "vs64-release",
+            "configurePreset": "vs64",
+            "configuration": "Release"
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "multi",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "multi"
+                },
+                {
+                    "type": "build",
+                    "name": "multi-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "multi-release"
+                }
+            ]
+        },
+        {
+            "name": "vs64",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "vs64"
+                },
+                {
+                    "type": "build",
+                    "name": "vs64-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "vs64-release"
+                }
+            ]
+        }
+    ]
+}
