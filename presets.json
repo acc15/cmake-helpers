@@ -11,7 +11,7 @@
             "hidden": true,
             "generator": "Ninja",
             "description": "Base preset with all required configuration",
-            "binaryDir": "$env{BINARY_DIR}",
+            "binaryDir": "${sourceDir}/build",
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
         },
         {
