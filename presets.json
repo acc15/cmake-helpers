@@ -15,15 +15,6 @@
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
         },
         {
-            "name": "base-multi",
-            "inherits": "base",
-            "hidden": true,
-            "description": "Base preset for multi-configuration generators",
-            "cacheVariables": {
-                "CMAKE_CONFIGURATION_TYPES": "Debug;Release"
-            }
-        },
-        {
             "name": "debug",
             "inherits": "base",
             "description": "Debug preset, mostly used in VSCode",
@@ -41,73 +32,62 @@
         },
         {
             "name": "multi",
-            "inherits": "base-multi",
+            "inherits": "base",
             "generator": "Ninja Multi-Config",
-            "description": "Multi-Ninja preset"
+            "description": "Multi-Ninja preset",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "Debug;Release"
+            }
         },
         {
             "name": "vs64",
-            "inherits": "base-multi",
+            "inherits": "base",
             "description": "Visual Studio preset (x64)",
             "generator": "Visual Studio 17 2022",
-            "architecture": "x64"
+            "architecture": "x64",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "Debug;Release"
+            }
+        },
+        {
+            "name": "multi-install",
+            "inherits": "multi",
+            "binaryDir": "$env{BINARY_DIR}"
+        },
+        {
+            "name": "vs64-install",
+            "inherits": "vs64",
+            "binaryDir": "$env{BINARY_DIR}"
         }
     ],
     "buildPresets": [
-        {
-            "name": "multi-debug",
-            "configurePreset": "multi",
-            "configuration": "Debug"
-        },
-        {
-            "name": "multi-release",
-            "configurePreset": "multi",
-            "configuration": "Release"
-        },
-        {
-            "name": "vs64-debug",
-            "configurePreset": "vs64",
-            "configuration": "Debug"
-        },
-        {
-            "name": "vs64-release",
-            "configurePreset": "vs64",
-            "configuration": "Release"
-        }
+        
+        {"name": "multi-debug", "configurePreset": "multi", "configuration": "Debug"},
+        {"name": "multi-release", "configurePreset": "multi", "configuration": "Release"},
+        {"name": "vs64-debug", "configurePreset": "vs64", "configuration": "Debug"},
+        {"name": "vs64-release", "configurePreset": "vs64", "configuration": "Release"},
+        
+        {"name": "multi-debug-install", "configurePreset": "multi-install", "configuration": "Debug"},
+        {"name": "multi-release-install", "configurePreset": "multi-install", "configuration": "Release"},
+        {"name": "vs64-debug-install", "configurePreset": "vs64-install", "configuration": "Debug"},
+        {"name": "vs64-release-install", "configurePreset": "vs64-install", "configuration": "Release"}
+
     ],
     "workflowPresets": [
         {
             "name": "multi",
             "steps": [
-                {
-                    "type": "configure",
-                    "name": "multi"
-                },
-                {
-                    "type": "build",
-                    "name": "multi-debug"
-                },
-                {
-                    "type": "build",
-                    "name": "multi-release"
-                }
+                {"type": "configure", "name": "multi-install"},
+                {"type": "build", "name": "multi-debug-install"},
+                {"type": "build", "name": "multi-release-install"}
             ]
         },
         {
             "name": "vs64",
             "steps": [
-                {
-                    "type": "configure",
-                    "name": "vs64"
-                },
-                {
-                    "type": "build",
-                    "name": "vs64-debug"
-                },
-                {
-                    "type": "build",
-                    "name": "vs64-release"
-                }
+                {"type": "configure", "name": "vs64-install"},
+                {"type": "build", "name": "vs64-debug-install"},
+                {"type": "build", "name": "vs64-release-install"}
             ]
         }
     ]
