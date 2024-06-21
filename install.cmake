@@ -78,7 +78,3 @@ function(generate_pkgconfig target)
         DESTINATION ${pkgconfig_dir}
     )
 endfunction()
-
-
-
-
