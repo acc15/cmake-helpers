@@ -1,6 +1,6 @@
 function(testing)
     
-    cmake_parse_arguments(PARSE_ARGV 0 TESTING "CUSTOM_MAIN" "NAME;DIR" "TARGETS;SRC")
+    cmake_parse_arguments(PARSE_ARGV 0 TESTING "CUSTOM_MAIN" "NAME;DIR" "TARGETS;SOURCES")
     if(NOT TESTING_NAME)
         set(TESTING_NAME ${PROJECT_NAME}_test)
     endif()
@@ -19,7 +19,7 @@ function(testing)
         endif()
 
         find_package(Catch2 REQUIRED)
-        add_executable(${TESTING_NAME} ${TESTING_SRC})
+        add_executable(${TESTING_NAME} ${TESTING_SOURCES})
         target_include_directories(${TESTING_NAME} PRIVATE ${TESTING_DIR})
         target_link_libraries(${TESTING_NAME} PRIVATE ${TESTING_LIBS})
 
