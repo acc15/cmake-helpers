@@ -35,7 +35,8 @@ macro(configure_defaults)
 
     # standard directory path prefixes
     set(SRC src)
-    set(INC include/${PROJECT_NAME})
+    set(INC include)
+    set(INCP ${INC}/${PROJECT_NAME})
     set(TEST test)
 
 endmacro()
