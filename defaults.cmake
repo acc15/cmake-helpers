@@ -24,7 +24,7 @@ macro(configure_defaults)
             /Zc:__cplusplus
         )
     else()
-        add_compile_options(-Wall -Wextra -Wpedantic)
+        add_compile_options(-Wall -Wextra -Wpedantic -Werror=return-type)
     endif()
 
     # shared libraries
