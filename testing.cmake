@@ -10,17 +10,15 @@ function(testing)
 
     include(CTest)
     if(BUILD_TESTING)
-
-        set(TESTING_LIBS ${TESTING_TARGETS})
-        if(TESTING_CUSTOM_MAIN)
-            list(PREPEND TESTING_LIBS Catch2::Catch2)
-        else()
-            list(PREPEND TESTING_LIBS Catch2::Catch2WithMain)
-        endif()
-
         find_package(Catch2 REQUIRED)
         add_executable(${TESTING_NAME} ${TESTING_SOURCES})
         target_include_directories(${TESTING_NAME} PRIVATE ${TESTING_DIR})
+
+        if(TESTING_CUSTOM_MAIN)
+            set(TESTING_LIBS "Catch2::Catch2;${TESTING_TARGETS}")
+        else()
+            set(TESTING_LIBS "Catch2::Catch2WithMain;${TESTING_TARGETS}")
+        endif()
         target_link_libraries(${TESTING_NAME} PRIVATE ${TESTING_LIBS})
 
         include(Catch)
