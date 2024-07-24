@@ -1,13 +1,12 @@
-function(testing)
-    
-    cmake_parse_arguments(PARSE_ARGV 0 TESTING "CUSTOM_MAIN" "NAME;DIR" "TARGETS;SOURCES")
+macro(testing)
+    cmake_parse_arguments(TESTING "CUSTOM_MAIN" "NAME;DIR" "TARGETS;SOURCES" ${ARGN})
     if(NOT TESTING_NAME)
         set(TESTING_NAME ${PROJECT_NAME}_test)
     endif()
     if(NOT TESTING_DIR)
         set(TESTING_DIR test)
     endif()
-
+    
     include(CTest)
     if(BUILD_TESTING)
         find_package(Catch2 REQUIRED)
@@ -23,7 +22,5 @@ function(testing)
 
         include(Catch)
         catch_discover_tests(${TESTING_NAME})
-
     endif()
-
-endfunction()
+endmacro()
