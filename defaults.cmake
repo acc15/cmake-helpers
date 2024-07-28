@@ -8,7 +8,10 @@ macro(configure_defaults)
     set(CMAKE_DEBUG_POSTFIX "d")
     
     if(MSVC)
-        add_definitions(-D_CRT_SECURE_NO_WARNINGS) # Disables CRT secure warning to allow cross-platform stdlib usage
+        add_definitions(
+            -D_CRT_SECURE_NO_WARNINGS # Disable CRT secure warning to allow cross-platform stdlib usage
+            -DNOMINMAX # Removes legacy windef.h min and max macro
+        )
         add_compile_options(
             /W4 # Enable informational warnings (1-4 level)
             /WX # Treat warnings as errors
